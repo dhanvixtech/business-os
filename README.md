@@ -50,5 +50,19 @@ business-os
 ├── docs
 ├── docker
 
+## Development Setup
+docker compose up -d --build
+
+docker compose exec php bash
+
+php artisan serve (if needed)
+
+php artisan test
+
+./vendor/bin/pint
+
+./vendor/bin/phpstan analyse
+
+
 
 Built with ❤️ by Dhanvix Technologies
