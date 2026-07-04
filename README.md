@@ -38,4 +38,17 @@ Build modular business software that helps SMEs digitize their operations throug
 
 ---
 
+## Folder Structure
+
+business-os
+│
+├── apps
+│   ├── api (Laravel)
+│   └── web (Angular)
+│
+├── packages
+├── docs
+├── docker
+
+
 Built with ❤️ by Dhanvix Technologies
