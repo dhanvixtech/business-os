@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: businessos-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./apps/api:/var/www/api
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: businessos-php
+    working_dir: /var/www/api
+    volumes:
+      - ./apps/api:/var/www/api
+    depends_on:
+      - mysql
+      - redis
+
+  mysql:
+    image: mysql:8.4
+    container_name: businessos-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: business-os
+      MYSQL_USER: business
+      MYSQL_PASSWORD: business
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: businessos-redis
+    ports:
+      - "6379"
+
+volumes:
+  mysql-data:
