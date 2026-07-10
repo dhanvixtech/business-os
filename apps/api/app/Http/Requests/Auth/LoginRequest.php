@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\DTOs\Auth\LoginDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
@@ -17,5 +18,12 @@ class LoginRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    public function toDto(): LoginDTO
+    {
+        return LoginDTO::fromArray(
+            $this->validated()
+        );
     }
 }

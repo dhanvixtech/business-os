@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\User;
 
+use App\DTOs\Common\ListQueryDTO;
+use App\Enums\SortDirection;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class ListUsersRequest extends FormRequest
 {
@@ -23,7 +26,7 @@ class ListUsersRequest extends FormRequest
 
             'direction' => [
                 'nullable',
-                'in:asc,desc'
+                new Enum(SortDirection::class),
             ],
 
             'per_page' => [
@@ -39,5 +42,12 @@ class ListUsersRequest extends FormRequest
                 'min:1',
             ],
         ];
+    }
+
+    public function toDto(): ListQueryDTO
+    {
+        return ListQueryDTO::fromArray(
+            $this->validated()
+        );
     }
 }

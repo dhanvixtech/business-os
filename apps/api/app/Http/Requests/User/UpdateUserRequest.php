@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests\User;
 
-use Illuminate\Contracts\Validation\ValidationRule;
+use App\DTOs\User\UpdateUserDTO;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -12,18 +13,46 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
+    }
+
+    public function toDto(): UpdateUserDTO
+    {
+        return UpdateUserDTO::fromArray(
+            (int) $this->route('id'),
+            $this->validated()
+        );
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Validation rules.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, mixed>
      */
     public function rules(): array
     {
+        $userId = (int) $this->route('id');
+
         return [
-            //
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($userId),
+            ],
+
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'confirmed',
+            ],
         ];
     }
 }

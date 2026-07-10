@@ -6,8 +6,10 @@ use App\Http\Controllers\Api\V1\AuthController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
-    // Route::post('/register', []);
-    Route::post('/logout', [AuthController::class, 'logout'])
-        ->middleware('auth:sanctum');
-    Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/register', [AuthController::class, 'register']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/me', [AuthController::class, 'me']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+    });
 });

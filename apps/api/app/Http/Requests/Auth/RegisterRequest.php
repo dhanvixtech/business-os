@@ -1,32 +1,17 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Auth;
 
-use App\DTOs\User\StoreUserDTO;
+use App\DTOs\Auth\RegisterDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    public function toDto(): StoreUserDTO
-    {
-        return StoreUserDTO::fromArray(
-            $this->validated()
-        );
-    }
-
-    /**
-     * Validation rules.
-     *
-     * @return array<string, mixed>
-     */
     public function rules(): array
     {
         return [
@@ -45,10 +30,16 @@ class StoreUserRequest extends FormRequest
 
             'password' => [
                 'required',
-                'string',
-                'min:8',
                 'confirmed',
+                'min:8',
             ],
         ];
+    }
+
+    public function toDto(): RegisterDTO
+    {
+        return RegisterDTO::fromArray(
+            $this->validated()
+        );
     }
 }

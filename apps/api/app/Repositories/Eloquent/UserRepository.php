@@ -2,11 +2,15 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\DTOs\Auth\RegisterDTO;
 use App\DTOs\Common\ListQueryDTO;
+use App\DTOs\User\StoreUserDTO;
+use App\DTOs\User\UpdateUserDTO;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Support\Query\QueryBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -31,6 +35,15 @@ class UserRepository implements UserRepositoryInterface
         return User::where('email', $email)->first();
     }
 
+    public function register(RegisterDTO $dto): User
+    {
+        return User::query()->create([
+            'name' => $dto->name,
+            'email' => $dto->email,
+            'password' => Hash::make($dto->password),
+        ]);
+    }
+
     public function list(ListQueryDTO $dto)
     {
         $query = User::query();
@@ -52,7 +65,7 @@ class UserRepository implements UserRepositoryInterface
         ) {
             $query->orderBy(
                 $dto->sort,
-                $dto->direction
+                $dto->direction->value
             );
         } else {
             $query->orderBy(
@@ -109,8 +122,42 @@ class UserRepository implements UserRepositoryInterface
             );
     }
 
+    public function create(StoreUserDTO $dto): User
+    {
+        return User::query()->create([
+            'name' => $dto->name,
+            'email' => $dto->email,
+            'password' => Hash::make($dto->password)
+        ]);
+    }
+
     public function findOrFail(int $id): User
     {
         return User::query()->findOrFail($id);
+    }
+
+    public function update(UpdateUserDTO $dto): User
+    {
+        $user = $this->findOrFail($dto->id);
+
+        $user->update([
+            'name' => $dto->name,
+            'email' => $dto->email,
+        ]);
+
+        if (!empty($dto->password)) {
+            $user->update([
+                'password' => Hash::make($dto->password),
+            ]);
+        }
+
+        return $user->refresh();
+    }
+
+    public function delete(int $id): bool
+    {
+        $user = $this->findOrFail($id);
+
+        return (bool) $user->delete();
     }
 }

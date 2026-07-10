@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1\System;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-class HealthController extends Controller
+class HealthController extends BaseController
 {
     public function __invoke(): JsonResponse
     {
-        return ApiResponse::success(
+        return $this->success(
             data: [
                 'application' => config('app.name'),
                 'version' => config('app.version'),
