@@ -108,4 +108,9 @@ class UserRepository implements UserRepositoryInterface
                 request('per_page', 15)
             );
     }
+
+    public function findOrFail(int $id): User
+    {
+        return User::query()->findOrFail($id);
+    }
 }

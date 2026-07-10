@@ -44,4 +44,14 @@ class UserController extends Controller
             ]
         );
     }
+
+    public function show(int $id)
+    {
+        $user = $this->service->find($id);
+
+        return ApiResponse::success(
+            data: new UserResource($user),
+            message: 'User fetched successfully.'
+        );
+    }
 }
