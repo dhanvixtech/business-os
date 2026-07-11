@@ -160,4 +160,21 @@ class UserRepository implements UserRepositoryInterface
 
         return (bool) $user->delete();
     }
+
+    public function syncRoles(
+        User $user,
+        array $roles,
+    ): User {
+
+        $user->syncRoles($roles);
+
+        return $user->load('roles');
+    }
+
+    public function getRoles(
+        User $user,
+    ): User {
+
+        return $user->load('roles');
+    }
 }

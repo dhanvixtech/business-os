@@ -6,10 +6,12 @@ use App\Actions\Role\CreateRoleAction;
 use App\Actions\Role\DeleteRoleAction;
 use App\Actions\Role\ListRolesAction;
 use App\Actions\Role\ShowRoleAction;
+use App\Actions\Role\SyncRolePermissionsAction;
 use App\Actions\Role\UpdateRoleAction;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\Role\ListRolesRequest;
 use App\Http\Requests\Role\StoreRoleRequest;
+use App\Http\Requests\Role\SyncRolePermissionsRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Support\Pagination;
@@ -75,6 +77,22 @@ class RoleController extends BaseController
 
         return $this->success(
             message: 'Role deleted successfully.',
+        );
+    }
+
+    public function syncPermissions(
+        int $id,
+        SyncRolePermissionsRequest $request,
+        SyncRolePermissionsAction $action,
+    ) {
+        $role = $action->execute(
+            $id,
+            $request->toDto()
+        );
+
+        return $this->success(
+            data: new RoleResource($role),
+            message: 'Permissions synchronized successfully.',
         );
     }
 }

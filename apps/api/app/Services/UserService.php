@@ -33,7 +33,7 @@ class UserService
         return $this->repository->findOrFail($id);
     }
 
-    public function update(UpdateUserDTO $dto): User
+    public function update(UpdateUserDTO $dto)
     {
         return $this->updateUserAction->execute($dto);
     }
@@ -41,5 +41,32 @@ class UserService
     public function delete(int $id): bool
     {
         return $this->repository->delete($id);
+    }
+
+    public function syncRoles(
+        int $id,
+        array $roles,
+    ): User {
+
+        $user = $this->repository->findOrFail($id);
+
+        return $this->repository->syncRoles(
+            $user,
+            $roles,
+        );
+    }
+
+    public function getRoles(
+        int $id,
+    ): User {
+
+        $user = $this->repository->findOrFail($id);
+
+        return $this->repository->getRoles($user);
+    }
+
+    public function findOrFail(int $id): User
+    {
+        return $this->repository->findOrFail($id);
     }
 }

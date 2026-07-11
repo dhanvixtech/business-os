@@ -76,4 +76,16 @@ class RoleRepository implements RoleRepositoryInterface
     {
         return $role->delete();
     }
+
+    public function syncPermissions(
+        Role $role,
+        array $permissions,
+    ): Role {
+
+        $role->syncPermissions(
+            $permissions
+        );
+
+        return $role->load('permissions');
+    }
 }

@@ -1,10 +1,19 @@
 <?php
 
+use App\Enums\RoleType;
 use App\Models\User;
+
+beforeEach(function () use (&$user) {
+
+    createRole(RoleType::SUPER_ADMIN->value);
+    createPermission('users.view');
+});
 
 it('can show a user', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.view'
+    ]);
 
     $user = User::factory()->create();
 
@@ -25,7 +34,9 @@ it('can show a user', function () {
 
 it('returns 404 when user does not exist', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.view'
+    ]);
 
     $response = $this->getJson('/api/v1/users/999999');
 

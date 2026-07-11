@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\RoleType;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
@@ -8,9 +9,18 @@ $user = null;
 
 beforeEach(function () use (&$user) {
 
-    $user = User::factory()->create();
+    createRole(RoleType::SUPER_ADMIN->value);
+    createPermission('roles.view');
+    createPermission('roles.create');
+    createPermission('roles.update');
+    createPermission('roles.delete');
 
-    Sanctum::actingAs($user);
+    actingAsSuperAdmin([
+        'roles.view',
+        'roles.create',
+        'roles.update',
+        'roles.delete',
+    ]);
 });
 
 it('can list roles', function () {
@@ -30,7 +40,7 @@ it('can list roles', function () {
     $response
         ->assertOk()
         ->assertJsonPath('success', true)
-        ->assertJsonCount(2, 'data');
+        ->assertJsonCount(3, 'data');
 });
 
 it('can show a role', function () {

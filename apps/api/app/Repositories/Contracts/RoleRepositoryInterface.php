@@ -19,4 +19,9 @@ interface RoleRepositoryInterface
     public function update(Role $role, UpdateRoleDTO $dto): Role;
 
     public function delete(Role $role): bool;
+
+    public function syncPermissions(
+        Role $role,
+        array $permissions,
+    ): Role;
 }

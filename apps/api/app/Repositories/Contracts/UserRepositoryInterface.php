@@ -22,4 +22,13 @@ interface UserRepositoryInterface
     public function update(UpdateUserDTO $dto): User;
 
     public function delete(int $id): bool;
+
+    public function syncRoles(
+        User $user,
+        array $roles,
+    ): User;
+
+    public function getRoles(
+        User $user,
+    ): User;
 }

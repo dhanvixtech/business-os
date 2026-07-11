@@ -1,10 +1,19 @@
 <?php
 
+use App\Enums\RoleType;
 use App\Models\User;
+
+beforeEach(function () use (&$user) {
+
+    createRole(RoleType::SUPER_ADMIN->value);
+    createPermission('users.update');
+});
 
 it('can update a user', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.update'
+    ]);
 
     $user = User::factory()->create();
 
@@ -25,7 +34,9 @@ it('can update a user', function () {
 
 it('returns 404 when updating unknown user', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.update'
+    ]);
 
     $response = $this->putJson('/api/v1/users/999999', [
         'name' => 'Test',

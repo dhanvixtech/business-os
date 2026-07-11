@@ -49,4 +49,19 @@ class RoleService
 
         $this->repository->delete($role);
     }
+
+    public function syncPermissions(
+        int $id,
+        array $permissions,
+    ): Role {
+
+        $role = $this->repository
+            ->findById($id);
+
+        return $this->repository
+            ->syncPermissions(
+                $role,
+                $permissions
+            );
+    }
 }

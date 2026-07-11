@@ -1,11 +1,21 @@
 <?php
 
+use App\Enums\RoleType;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
+
+beforeEach(function () use (&$user) {
+
+    createRole(RoleType::SUPER_ADMIN->value);
+    createPermission('users.view');
+});
+
 it('can list users', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.view'
+    ]);
 
     User::factory()->count(15)->create();
 
@@ -48,7 +58,9 @@ it('requires authentication to list users', function () {
 
 it('supports pagination', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.view'
+    ]);
 
     User::factory()->count(25)->create();
 
@@ -61,7 +73,9 @@ it('supports pagination', function () {
 
 it('supports search', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.view'
+    ]);
 
     User::factory()->create([
         'name' => 'Ganesh Kumar',
@@ -80,7 +94,9 @@ it('supports search', function () {
 
 it('supports sorting', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.view'
+    ]);
 
     User::factory()->create([
         'name' => 'Zebra',

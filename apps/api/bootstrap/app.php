@@ -2,13 +2,19 @@
 
 use App\Support\ApiResponse;
 use App\Support\ErrorResponse;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Middleware\PermissionMiddleware;
+use Spatie\Permission\Middleware\RoleMiddleware;
+use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -19,18 +25,57 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+
+        $middleware->alias([
+            'permission' => PermissionMiddleware::class,
+            'role' => RoleMiddleware::class,
+            'role_or_permission' => RoleOrPermissionMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+
         $exceptions->shouldRenderJsonWhen(
             fn(Request $request) => $request->is('api/*'),
         );
 
         $exceptions->render(function (
+            UnauthorizedException $e,
+            Request $request
+        ) {
+
+            return ApiResponse::error(
+                message: 'You do not have permission to perform this action.',
+                status: 403,
+            );
+        });
+
+        $exceptions->render(function (
+            AuthorizationException $e,
+            Request $request
+        ) {
+
+            return ApiResponse::error(
+                message: 'You are not authorized to perform this action.',
+                status: 403,
+            );
+        });
+
+        $exceptions->render(function (
+            AccessDeniedHttpException $e,
+            Request $request
+        ) {
+
+            return ApiResponse::error(
+                message: 'You are not authorized to perform this action.',
+                status: 403,
+            );
+        });
+
+        $exceptions->render(function (
             ModelNotFoundException $e,
             Request $request
         ) {
-            if ($request->expectsJson()) {
+            if ($request->expectsJson() || $request->is('api/*')) {
 
                 return ApiResponse::error(
                     message: 'Resource not found.',
@@ -44,7 +89,7 @@ return Application::configure(basePath: dirname(__DIR__))
             Request $request
         ) {
 
-            if ($request->expectsJson()) {
+            if ($request->expectsJson() || $request->is('api/*')) {
 
                 return ApiResponse::error(
                     message: 'Validation failed.',
@@ -59,7 +104,7 @@ return Application::configure(basePath: dirname(__DIR__))
             Request $request
         ) {
 
-            if ($request->expectsJson()) {
+            if ($request->expectsJson() || $request->is('api/*')) {
 
                 return ApiResponse::error(
                     message: 'Unauthenticated.',
@@ -68,22 +113,30 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
-        $exceptions->render(function (NotFoundHttpException $e) {
-            return ErrorResponse::make(
-                'Route not found.',
-                [],
-                404
-            );
+        $exceptions->render(function (
+            NotFoundHttpException $e,
+            Request $request
+        ) {
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return ApiResponse::error(
+                    message: 'Route not found.',
+                    status: 404
+                );
+            }
         });
 
-        $exceptions->render(function (Throwable $e) {
+        $exceptions->render(function (
+            Throwable $e,
+            Request $request
+        ) {
 
-            return ErrorResponse::make(
-                app()->isProduction()
-                    ? 'Something went wrong.'
-                    : $e->getMessage(),
-                [],
-                500
-            );
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return ApiResponse::error(
+                    message: app()->isProduction()
+                        ? 'Something went wrong.'
+                        : $e->getMessage(),
+                    status: 500
+                );
+            }
         });
     })->create();

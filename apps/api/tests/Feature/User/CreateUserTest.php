@@ -1,10 +1,19 @@
 <?php
 
+use App\Enums\RoleType;
 use App\Models\User;
+
+beforeEach(function () use (&$user) {
+
+    createRole(RoleType::SUPER_ADMIN->value);
+    createPermission('users.create');
+});
 
 it('can create a user', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.create'
+    ]);
 
     $response = $this->postJson('/api/v1/users', [
         'name' => 'Ganesh Kumar',
@@ -24,7 +33,9 @@ it('can create a user', function () {
 
 it('validates duplicate email', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.create'
+    ]);
 
     User::factory()->create([
         'email' => 'ganesh@example.com',

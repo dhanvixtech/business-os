@@ -1,10 +1,19 @@
 <?php
 
+use App\Enums\RoleType;
 use App\Models\User;
+
+beforeEach(function () use (&$user) {
+
+    createRole(RoleType::SUPER_ADMIN->value);
+    createPermission('users.delete');
+});
 
 it('can delete a user', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.delete'
+    ]);
 
     $user = User::factory()->create();
 
@@ -19,7 +28,9 @@ it('can delete a user', function () {
 
 it('returns 404 when deleting unknown user', function () {
 
-    actingAsUser();
+    actingAsSuperAdmin([
+        'users.delete'
+    ]);
 
     $response = $this->deleteJson('/api/v1/users/999999');
 
