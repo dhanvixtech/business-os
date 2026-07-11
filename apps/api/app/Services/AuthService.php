@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTOs\Auth\RegisterDTO;
+use App\Enums\RoleType;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
 
@@ -25,6 +26,10 @@ class AuthService
     public function register(RegisterDTO $dto): array
     {
         $user = $this->users->register($dto);
+
+        $user->assignRole(
+            RoleType::CUSTOMER->value
+        );
 
         return [
             'user' => $user,
