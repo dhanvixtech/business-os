@@ -45,12 +45,11 @@ class PermissionController extends BaseController
         StorePermissionRequest $request,
         CreatePermissionAction $action,
     ) {
-        return $this->success(
+        return $this->created(
             data: new PermissionResource(
                 $action->execute($request->toDto())
             ),
-            message: 'Permission created successfully.',
-            status: 201,
+            message: 'Permission created successfully.'
         );
     }
 
@@ -59,7 +58,7 @@ class PermissionController extends BaseController
         UpdatePermissionRequest $request,
         UpdatePermissionAction $action,
     ) {
-        return $this->success(
+        return $this->updated(
             data: new PermissionResource(
                 $action->execute($id, $request->toDto())
             ),
@@ -73,7 +72,7 @@ class PermissionController extends BaseController
     ) {
         $action->execute($id);
 
-        return $this->success(
+        return $this->deleted(
             message: 'Permission deleted successfully.',
         );
     }

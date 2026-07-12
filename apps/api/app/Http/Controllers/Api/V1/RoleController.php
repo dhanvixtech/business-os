@@ -47,12 +47,11 @@ class RoleController extends BaseController
         StoreRoleRequest $request,
         CreateRoleAction $action,
     ) {
-        return $this->success(
+        return $this->created(
             data: new RoleResource(
                 $action->execute($request->toDto())
             ),
-            message: 'Role created successfully.',
-            status: 201,
+            message: 'Role created successfully.'
         );
     }
 
@@ -61,7 +60,7 @@ class RoleController extends BaseController
         UpdateRoleRequest $request,
         UpdateRoleAction $action,
     ) {
-        return $this->success(
+        return $this->updated(
             data: new RoleResource(
                 $action->execute($id, $request->toDto())
             ),
@@ -75,7 +74,7 @@ class RoleController extends BaseController
     ) {
         $action->execute($id);
 
-        return $this->success(
+        return $this->deleted(
             message: 'Role deleted successfully.',
         );
     }

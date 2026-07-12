@@ -36,10 +36,9 @@ class UserController extends BaseController
     {
         $user = $this->service->create($request->toDto());
 
-        return $this->success(
+        return $this->created(
             data: new UserResource($user),
-            message: 'User created successfully.',
-            status: 201
+            message: 'User created successfully.'
         );
     }
 
@@ -65,7 +64,7 @@ class UserController extends BaseController
             $request->toDto()
         );
 
-        return $this->success(
+        return $this->updated(
             data: new UserResource($user),
             message: 'User updated successfully.'
         );
@@ -79,7 +78,7 @@ class UserController extends BaseController
 
         $this->service->delete($id);
 
-        return $this->success(
+        return $this->deleted(
             message: 'User deleted successfully.'
         );
     }
