@@ -19,7 +19,7 @@ class LoginAction
     {
         $user = $this->users->findByEmail($dto->email);
 
-        if (!$user || !Hash::check($dto->password, $user->password)) {
+        if (! $user || ! Hash::check($dto->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['Invalid credentials.'],
             ]);

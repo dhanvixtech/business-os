@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Actions\User\CreateUserAction;
+use App\Actions\User\DeleteUserAction;
 use App\Actions\User\UpdateUserAction;
 use App\DTOs\Common\ListQueryDTO;
 use App\DTOs\User\StoreUserDTO;
@@ -16,6 +17,7 @@ class UserService
         private readonly UserRepositoryInterface $repository,
         private readonly CreateUserAction $createUserAction,
         private readonly UpdateUserAction $updateUserAction,
+        private readonly DeleteUserAction $deleteUserAction,
     ) {}
 
     public function list(ListQueryDTO $dto)
@@ -40,7 +42,7 @@ class UserService
 
     public function delete(int $id): bool
     {
-        return $this->repository->delete($id);
+        return $this->deleteUserAction->execute($id);
     }
 
     public function syncRoles(

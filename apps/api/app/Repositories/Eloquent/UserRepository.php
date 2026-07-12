@@ -8,7 +8,6 @@ use App\DTOs\User\StoreUserDTO;
 use App\DTOs\User\UpdateUserDTO;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
-use App\Support\Query\QueryBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 
@@ -49,7 +48,7 @@ class UserRepository implements UserRepositoryInterface
         $query = User::query();
 
         // Search
-        if (!empty($dto->search)) {
+        if (! empty($dto->search)) {
             $query->where(function ($q) use ($dto) {
 
                 foreach (self::SEARCHABLE as $column) {
@@ -60,7 +59,7 @@ class UserRepository implements UserRepositoryInterface
 
         // Sort
         if (
-            !empty($dto->sort) &&
+            ! empty($dto->sort) &&
             in_array($dto->sort, self::SORTABLE)
         ) {
             $query->orderBy(
@@ -104,7 +103,7 @@ class UserRepository implements UserRepositoryInterface
                         'id',
                         'name',
                         'email',
-                        'created_at'
+                        'created_at',
                     ];
 
                     if (in_array($sort, $allowed)) {
@@ -127,7 +126,7 @@ class UserRepository implements UserRepositoryInterface
         return User::query()->create([
             'name' => $dto->name,
             'email' => $dto->email,
-            'password' => Hash::make($dto->password)
+            'password' => Hash::make($dto->password),
         ]);
     }
 
@@ -145,7 +144,7 @@ class UserRepository implements UserRepositoryInterface
             'email' => $dto->email,
         ]);
 
-        if (!empty($dto->password)) {
+        if (! empty($dto->password)) {
             $user->update([
                 'password' => Hash::make($dto->password),
             ]);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\RoleType;
+
 use function Pest\Laravel\getJson;
 use function Pest\Laravel\putJson;
 

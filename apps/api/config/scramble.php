@@ -45,16 +45,16 @@ return [
         /*
          * API version.
          */
-        'version' => env('API_VERSION', '0.0.1'),
+        'version' => env('API_VERSION', '0.6.1'),
 
         /*
          * Description rendered on the home page of the API documentation (`/docs/api`).
          */
-        'description' => '',
+        'description' => 'Enterprise Laravel Backend Framework',
     ],
 
     'ui' => [
-        'title' => null,
+        'title' => env('APP_NAME', 'BusinessOS API')
     ],
 
     'renderer' => 'elements',

@@ -5,7 +5,6 @@ namespace App\Repositories\Eloquent;
 use App\DTOs\Common\ListQueryDTO;
 use App\DTOs\Role\StoreRoleDTO;
 use App\DTOs\Role\UpdateRoleDTO;
-use App\Enums\SortDirection;
 use App\Repositories\Contracts\RoleRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Spatie\Permission\Models\Role;

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\V1\System;
 
 use App\Http\Controllers\Api\BaseController;
-use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
 class HealthController extends BaseController

@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 uses(
-    Tests\TestCase::class,
+    TestCase::class,
     RefreshDatabase::class
 )->in('Feature');
 
-require_once __DIR__ . '/Helpers/Auth.php';
+require_once __DIR__.'/Helpers/Auth.php';

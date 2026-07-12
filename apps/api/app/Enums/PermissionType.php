@@ -10,13 +10,13 @@ enum PermissionType: string
     case USERS_UPDATE = 'users.update';
     case USERS_DELETE = 'users.delete';
 
-        // Roles
+    // Roles
     case ROLES_VIEW = 'roles.view';
     case ROLES_CREATE = 'roles.create';
     case ROLES_UPDATE = 'roles.update';
     case ROLES_DELETE = 'roles.delete';
 
-        // Permissions
+    // Permissions
     case PERMISSIONS_VIEW = 'permissions.view';
     case PERMISSIONS_CREATE = 'permissions.create';
     case PERMISSIONS_UPDATE = 'permissions.update';

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Actions\User\GetUserRolesAction;
 use App\Actions\User\SyncUserRolesAction;
-use App\DTOs\Common\ListQueryDTO;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\User\ListUsersRequest;
 use App\Http\Requests\User\StoreUserRequest;
@@ -21,6 +20,11 @@ class UserController extends BaseController
         private readonly UserService $service
     ) {}
 
+    /**
+     * List Users
+     *
+     * Returns a paginated list of users.
+     */
     public function index(ListUsersRequest $request)
     {
         $users = $this->service->list($request->toDto());
@@ -32,6 +36,11 @@ class UserController extends BaseController
         );
     }
 
+    /**
+     * Create User
+     *
+     * Creates a new system user.
+     */
     public function store(StoreUserRequest $request)
     {
         $user = $this->service->create($request->toDto());
@@ -54,6 +63,11 @@ class UserController extends BaseController
         );
     }
 
+    /**
+     * Update User
+     *
+     * Updates an existing user.
+     */
     public function update(UpdateUserRequest $request, int $id)
     {
         $user = $this->service->findOrFail($id);
@@ -70,6 +84,11 @@ class UserController extends BaseController
         );
     }
 
+    /**
+     * Delete User
+     *
+     * Soft deletes a user.
+     */
     public function destroy(int $id)
     {
         $user = $this->service->findOrFail($id);

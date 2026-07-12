@@ -12,7 +12,7 @@ beforeEach(function () use (&$user) {
 it('can delete a user', function () {
 
     actingAsSuperAdmin([
-        'users.delete'
+        'users.delete',
     ]);
 
     $user = User::factory()->create();
@@ -29,7 +29,7 @@ it('can delete a user', function () {
 it('returns 404 when deleting unknown user', function () {
 
     actingAsSuperAdmin([
-        'users.delete'
+        'users.delete',
     ]);
 
     $response = $this->deleteJson('/api/v1/users/999999');

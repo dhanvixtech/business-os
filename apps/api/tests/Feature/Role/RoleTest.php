@@ -1,8 +1,6 @@
 <?php
 
 use App\Enums\RoleType;
-use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 use Spatie\Permission\Models\Role;
 
 $user = null;

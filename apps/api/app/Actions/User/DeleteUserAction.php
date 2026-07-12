@@ -7,19 +7,21 @@ use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Services\ActivityLogService;
 
-class UpdateUserAction
+class DeleteUserAction
 {
     public function __construct(
         private readonly UserRepositoryInterface $repository,
         private readonly ActivityLogService $activity,
     ) {}
 
-    public function execute(UpdateUserDTO $dto): User
+    public function execute(int $id): bool
     {
-        $user = $this->repository->update($dto);
+        $user = $this->repository->findOrFail($id);
+
+        $status = $this->repository->delete($id);
 
         $this->activity->log(
-            description: 'User updated',
+            description: 'User deleted',
             subject: $user,
             properties: [
                 'email' => $user->email,
@@ -27,6 +29,6 @@ class UpdateUserAction
             ]
         );
 
-        return $user;
+        return $status;
     }
 }

@@ -21,7 +21,7 @@ class ListUsersRequest extends FormRequest
 
             'sort' => [
                 'nullable',
-                'in:id,name,email,created_at'
+                'in:id,name,email,created_at',
             ],
 
             'direction' => [
@@ -33,7 +33,7 @@ class ListUsersRequest extends FormRequest
                 'nullable',
                 'integer',
                 'min:1',
-                'max:100'
+                'max:100',
             ],
 
             'page' => [

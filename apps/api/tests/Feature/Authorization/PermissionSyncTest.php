@@ -2,6 +2,7 @@
 
 use App\Enums\RoleType;
 use Spatie\Permission\Models\Role;
+
 use function Pest\Laravel\putJson;
 
 it('syncs permissions to role', function () {
@@ -14,7 +15,6 @@ it('syncs permissions to role', function () {
     createRole(RoleType::EMPLOYEE->value);
     createPermission('users.view');
     createPermission('users.create');
-
 
     $role = Role::firstOrCreate([
         'name' => RoleType::MANAGER->value,

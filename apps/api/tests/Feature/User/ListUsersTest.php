@@ -2,8 +2,6 @@
 
 use App\Enums\RoleType;
 use App\Models\User;
-use Laravel\Sanctum\Sanctum;
-
 
 beforeEach(function () use (&$user) {
 
@@ -14,7 +12,7 @@ beforeEach(function () use (&$user) {
 it('can list users', function () {
 
     actingAsSuperAdmin([
-        'users.view'
+        'users.view',
     ]);
 
     User::factory()->count(15)->create();
@@ -59,7 +57,7 @@ it('requires authentication to list users', function () {
 it('supports pagination', function () {
 
     actingAsSuperAdmin([
-        'users.view'
+        'users.view',
     ]);
 
     User::factory()->count(25)->create();
@@ -74,7 +72,7 @@ it('supports pagination', function () {
 it('supports search', function () {
 
     actingAsSuperAdmin([
-        'users.view'
+        'users.view',
     ]);
 
     User::factory()->create([
@@ -95,7 +93,7 @@ it('supports search', function () {
 it('supports sorting', function () {
 
     actingAsSuperAdmin([
-        'users.view'
+        'users.view',
     ]);
 
     User::factory()->create([

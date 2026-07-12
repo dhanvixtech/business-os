@@ -12,7 +12,7 @@ beforeEach(function () use (&$user) {
 it('can update a user', function () {
 
     actingAsSuperAdmin([
-        'users.update'
+        'users.update',
     ]);
 
     $user = User::factory()->create();
@@ -35,7 +35,7 @@ it('can update a user', function () {
 it('returns 404 when updating unknown user', function () {
 
     actingAsSuperAdmin([
-        'users.update'
+        'users.update',
     ]);
 
     $response = $this->putJson('/api/v1/users/999999', [

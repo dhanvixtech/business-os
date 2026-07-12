@@ -12,7 +12,7 @@ beforeEach(function () use (&$user) {
 it('can create a user', function () {
 
     actingAsSuperAdmin([
-        'users.create'
+        'users.create',
     ]);
 
     $response = $this->postJson('/api/v1/users', [
@@ -34,7 +34,7 @@ it('can create a user', function () {
 it('validates duplicate email', function () {
 
     actingAsSuperAdmin([
-        'users.create'
+        'users.create',
     ]);
 
     User::factory()->create([

@@ -12,7 +12,7 @@ beforeEach(function () use (&$user) {
 it('can show a user', function () {
 
     actingAsSuperAdmin([
-        'users.view'
+        'users.view',
     ]);
 
     $user = User::factory()->create();
@@ -35,7 +35,7 @@ it('can show a user', function () {
 it('returns 404 when user does not exist', function () {
 
     actingAsSuperAdmin([
-        'users.view'
+        'users.view',
     ]);
 
     $response = $this->getJson('/api/v1/users/999999');
