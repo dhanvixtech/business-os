@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Requests\{{ module }};
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class Update{{ module }}Request extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+
+        ];
+    }
+
+    public function toDto(int $id): Update{{ module }}DTO
+    {
+        return Update{{ module }}DTO::fromRequest($this, $id);
+    }
+}

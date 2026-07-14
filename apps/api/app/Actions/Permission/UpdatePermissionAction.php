@@ -3,23 +3,20 @@
 namespace App\Actions\Permission;
 
 use App\DTOs\Permission\UpdatePermissionDTO;
+use App\Repositories\Contracts\PermissionRepositoryInterface;
 use App\Services\ActivityLogService;
-use App\Services\PermissionService;
 use Spatie\Permission\Models\Permission;
 
 class UpdatePermissionAction
 {
     public function __construct(
-        private readonly PermissionService $service,
+        private readonly PermissionRepositoryInterface $repository,
         private readonly ActivityLogService $activity,
     ) {}
 
-    public function execute(
-        int $id,
-        UpdatePermissionDTO $dto,
-    ): Permission {
-
-        $permission = $this->service->update($id, $dto);
+    public function execute(UpdatePermissionDTO $dto): Permission
+    {
+        $permission = $this->repository->update($dto);
 
         $this->activity->log(
             description: 'Permission updated',

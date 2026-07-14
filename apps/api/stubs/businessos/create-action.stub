@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Actions\{{ module }};
+
+use App\DTOs\{{ module }}\Store{{ module }}DTO;
+use App\Repositories\Contracts\{{ module }}RepositoryInterface;
+
+class Create{{ module }}Action
+{
+    public function __construct(
+        private readonly {{ module }}RepositoryInterface $repository
+    ) {}
+
+    public function execute(Store{{ module }}DTO $dto)
+    {
+        return $this->repository->store($dto);
+    }
+}

@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Actions\{{ module }};
+
+use App\DTOs\{{ module }}\Update{{ module }}DTO;
+use App\Repositories\Contracts\{{ module }}RepositoryInterface;
+
+class Update{{ module }}Action
+{
+    public function __construct(
+        private readonly {{ module }}RepositoryInterface $repository
+    ) {}
+
+    public function execute(Update{{ module }}DTO $dto)
+    {
+        return $this->repository->update($dto);
+    }
+}

@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Policies;
+
+use App\Models\User;
+use App\Models\{{ module }};
+
+class {{ module }}Policy
+{
+    public function viewAny(User $user): bool
+    {
+        return $user->can('{{ permissionPrefix }}.view');
+    }
+
+    public function view(User $user, {{ module }} ${{ moduleVariable }}): bool
+    {
+        return $user->can('{{ permissionPrefix }}.view');
+    }
+
+    public function create(User $user): bool
+    {
+        return $user->can('{{ permissionPrefix }}.create');
+    }
+
+    public function update(User $user, {{ module }} ${{ moduleVariable }}): bool
+    {
+        return $user->can('{{ permissionPrefix }}.update');
+    }
+
+    public function delete(User $user, {{ module }} ${{ moduleVariable }}): bool
+    {
+        return $user->can('{{ permissionPrefix }}.delete');
+    }
+}

@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Repositories\Eloquent;
+
+use App\Models\{{ module }};
+use App\Repositories\Contracts\{{ module }}RepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
+
+class {{ module }}Repository implements {{ module }}RepositoryInterface
+{
+    public function getAll(): Collection
+    {
+        return {{ module }}::query()->get();
+    }
+
+    public function paginate(int $perPage = 15): LengthAwarePaginator
+    {
+        return {{ module }}::query()->paginate($perPage);
+    }
+
+    public function findById(int $id): ?{{ module }}
+    {
+        return {{ module }}::query()->find($id);
+    }
+
+    public function create(array $data): {{ module }}
+    {
+        return {{ module }}::query()->create($data);
+    }
+
+    public function update({{ module }} ${{ moduleVariable }}, array $data): {{ module }}
+    {
+        ${{ moduleVariable }}->update($data);
+
+        return ${{ moduleVariable }}->refresh();
+    }
+
+    public function delete({{ module }} ${{ moduleVariable }}): bool
+    {
+        return ${{ moduleVariable }}->delete();
+    }
+}

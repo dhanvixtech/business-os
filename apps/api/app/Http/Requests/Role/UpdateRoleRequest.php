@@ -37,6 +37,7 @@ class UpdateRoleRequest extends FormRequest
     public function toDto(): UpdateRoleDTO
     {
         return UpdateRoleDTO::fromArray(
+            (int) $this->route('id'),
             $this->validated()
         );
     }

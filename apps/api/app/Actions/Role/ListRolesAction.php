@@ -3,17 +3,17 @@
 namespace App\Actions\Role;
 
 use App\DTOs\Common\ListQueryDTO;
-use App\Services\RoleService;
+use App\Repositories\Contracts\RoleRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ListRolesAction
 {
     public function __construct(
-        private readonly RoleService $service,
+        private readonly RoleRepositoryInterface $repository,
     ) {}
 
     public function execute(ListQueryDTO $dto): LengthAwarePaginator
     {
-        return $this->service->list($dto);
+        return $this->repository->list($dto);
     }
 }

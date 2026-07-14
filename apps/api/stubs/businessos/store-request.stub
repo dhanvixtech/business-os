@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Requests\{{ module }};
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class Store{{ module }}Request extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+
+        ];
+    }
+
+    public function toDto(): Store{{ module }}DTO
+    {
+        return Store{{ module }}DTO::fromRequest($this);
+    }
+}

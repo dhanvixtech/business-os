@@ -2,17 +2,18 @@
 
 namespace App\Actions\Permission;
 
-use App\Services\PermissionService;
+use App\Repositories\Contracts\PermissionRepositoryInterface;
 use Spatie\Permission\Models\Permission;
 
 class ShowPermissionAction
 {
     public function __construct(
-        private readonly PermissionService $service,
+        private readonly PermissionRepositoryInterface $repository,
+
     ) {}
 
     public function execute(int $id): Permission
     {
-        return $this->service->show($id);
+        return $this->repository->findById($id);
     }
 }

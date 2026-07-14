@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Actions\{{ module }};
+
+use App\Repositories\Contracts\{{ module }}RepositoryInterface;
+
+class Delete{{ module }}Action
+{
+    public function __construct(
+        private readonly {{ module }}RepositoryInterface $repository
+    ) {}
+
+    public function execute(int $id): bool
+    {
+        return $this->repository->delete($id);
+    }
+}

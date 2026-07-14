@@ -3,22 +3,20 @@
 namespace App\Actions\Role;
 
 use App\DTOs\Role\UpdateRoleDTO;
+use App\Repositories\Contracts\RoleRepositoryInterface;
 use App\Services\ActivityLogService;
-use App\Services\RoleService;
 use Spatie\Permission\Models\Role;
 
 class UpdateRoleAction
 {
     public function __construct(
-        private readonly RoleService $service,
+        private readonly RoleRepositoryInterface $repository,
         private readonly ActivityLogService $activity,
     ) {}
 
-    public function execute(
-        int $id,
-        UpdateRoleDTO $dto,
-    ): Role {
-        $role = $this->service->update($id, $dto);
+    public function execute(UpdateRoleDTO $dto): Role
+    {
+        $role = $this->repository->update($dto);
 
         $this->activity->log(
             description: 'Role updated',

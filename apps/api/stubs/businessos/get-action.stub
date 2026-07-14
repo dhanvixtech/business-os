@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Actions\{{ module }};
+
+use App\Repositories\Contracts\{{ module }}RepositoryInterface;
+
+class Get{{ module }}Action
+{
+    public function __construct(
+        private readonly {{ module }}RepositoryInterface $repository
+    ) {}
+
+    public function execute(int $id)
+    {
+        return $this->repository->findByIdOrFail($id);
+    }
+}

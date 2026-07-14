@@ -64,15 +64,19 @@ class RoleRepository implements RoleRepositoryInterface
         return Role::query()->create($dto->toArray());
     }
 
-    public function update(Role $role, UpdateRoleDTO $dto): Role
+    public function update(UpdateRoleDTO $dto): Role
     {
+        $role = $this->findById($dto->id);
+
         $role->update($dto->toArray());
 
         return $role->refresh();
     }
 
-    public function delete(Role $role): bool
+    public function delete(int $id): bool
     {
+        $role = $this->findById($id);
+
         return $role->delete();
     }
 

@@ -1,0 +1,30 @@
+<?php
+
+namespace App\DTOs\{{ module }};
+
+use App\Http\Requests\{{ module }}\Update{{ module }}Request;
+
+readonly class Update{{ module }}DTO
+{
+    public function __construct(
+        public int $id,
+        // Add properties here
+    ) {}
+
+    public static function fromRequest(
+        Update{{ module }}Request $request,
+        int $id
+    ): self {
+        return new self(
+            id: $id,
+            // Map validated data
+        );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            // Return mapped array
+        ];
+    }
+}

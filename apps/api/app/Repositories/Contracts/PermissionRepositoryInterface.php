@@ -16,10 +16,7 @@ interface PermissionRepositoryInterface
 
     public function create(StorePermissionDTO $dto): Permission;
 
-    public function update(
-        Permission $permission,
-        UpdatePermissionDTO $dto
-    ): Permission;
+    public function update(UpdatePermissionDTO $dto): Permission;
 
-    public function delete(Permission $permission): bool;
+    public function delete(int $id): bool;
 }

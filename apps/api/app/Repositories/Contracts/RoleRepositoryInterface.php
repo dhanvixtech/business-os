@@ -16,9 +16,9 @@ interface RoleRepositoryInterface
 
     public function create(StoreRoleDTO $dto): Role;
 
-    public function update(Role $role, UpdateRoleDTO $dto): Role;
+    public function update(UpdateRoleDTO $dto): Role;
 
-    public function delete(Role $role): bool;
+    public function delete(int $id): bool;
 
     public function syncPermissions(
         Role $role,

@@ -2,6 +2,11 @@
 
 namespace App\Services;
 
+use App\Actions\Permission\CreatePermissionAction;
+use App\Actions\Permission\DeletePermissionAction;
+use App\Actions\Permission\ListPermissionsAction;
+use App\Actions\Permission\ShowPermissionAction;
+use App\Actions\Permission\UpdatePermissionAction;
 use App\DTOs\Common\ListQueryDTO;
 use App\DTOs\Permission\StorePermissionDTO;
 use App\DTOs\Permission\UpdatePermissionDTO;
@@ -13,40 +18,35 @@ class PermissionService
 {
     public function __construct(
         private readonly PermissionRepositoryInterface $repository,
+        private readonly ListPermissionsAction $listAction,
+        private readonly ShowPermissionAction $showAction,
+        private readonly CreatePermissionAction $createAction,
+        private readonly UpdatePermissionAction $updateAction,
+        private readonly DeletePermissionAction $deleteAction,
     ) {}
 
     public function list(ListQueryDTO $dto): LengthAwarePaginator
     {
-        return $this->repository->list($dto);
+        return $this->listAction->execute($dto);
     }
 
     public function show(int $id): Permission
     {
-        return $this->repository->findById($id);
+        return $this->showAction->execute($id);
     }
 
     public function create(StorePermissionDTO $dto): Permission
     {
-        return $this->repository->create($dto);
+        return $this->createAction->execute($dto);
     }
 
-    public function update(
-        int $id,
-        UpdatePermissionDTO $dto,
-    ): Permission {
-
-        $permission = $this->repository->findById($id);
-
-        return $this->repository->update(
-            $permission,
-            $dto
-        );
-    }
-
-    public function delete(int $id): void
+    public function update(UpdatePermissionDTO $dto)
     {
-        $permission = $this->repository->findById($id);
+        return $this->updateAction->execute($dto);
+    }
 
-        $this->repository->delete($permission);
+    public function delete(int $id)
+    {
+        return $this->deleteAction->execute($id);
     }
 }

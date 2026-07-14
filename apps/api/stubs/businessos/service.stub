@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Services;
+
+use App\Actions\{{ module }}\Create{{ module }}Action;
+use App\Actions\{{ module }}\Delete{{ module }}Action;
+use App\Actions\{{ module }}\Update{{ module }}Action;
+use App\DTOs\{{ module }}\Create{{ module }}DTO;
+use App\DTOs\{{ module }}\Update{{ module }}DTO;
+
+class {{ module }}Service
+{
+    public function __construct(
+        private readonly Create{{ module }}Action $createAction,
+        private readonly Update{{ module }}Action $updateAction,
+        private readonly Delete{{ module }}Action $deleteAction,
+    ) {
+    }
+
+    public function store(Create{{ module }}DTO $dto)
+    {
+        return $this->createAction->execute($dto);
+    }
+
+    public function update(Update{{ module }}DTO $dto)
+    {
+        return $this->updateAction->execute($dto);
+    }
+
+    public function delete(int $id): bool
+    {
+        return $this->deleteAction->execute($id);
+    }
+}

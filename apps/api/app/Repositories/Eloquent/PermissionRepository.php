@@ -68,10 +68,9 @@ class PermissionRepository implements PermissionRepositoryInterface
         return Permission::query()->create($attributes);
     }
 
-    public function update(
-        Permission $permission,
-        UpdatePermissionDTO $dto
-    ): Permission {
+    public function update(UpdatePermissionDTO $dto): Permission
+    {
+        $permission = $this->findById($dto->id);
 
         $attributes = $dto->toArray();
 
@@ -82,8 +81,10 @@ class PermissionRepository implements PermissionRepositoryInterface
         return $permission->refresh();
     }
 
-    public function delete(Permission $permission): bool
+    public function delete(int $id): bool
     {
+        $permission = $this->findById($id);
+
         return $permission->delete();
     }
 }

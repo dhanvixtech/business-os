@@ -2,21 +2,21 @@
 
 namespace App\Actions\Role;
 
+use App\Repositories\Contracts\RoleRepositoryInterface;
 use App\Services\ActivityLogService;
-use App\Services\RoleService;
 
 class DeleteRoleAction
 {
     public function __construct(
-        private readonly RoleService $service,
+        private readonly RoleRepositoryInterface $repository,
         private readonly ActivityLogService $activity,
     ) {}
 
-    public function execute(int $id): void
+    public function execute(int $id): bool
     {
-        $role = $this->service->show($id);
+        $role = $this->repository->findById($id);
 
-        $this->service->delete($id);
+        $status = $this->repository->delete($id);
 
         $this->activity->log(
             description: 'Role deleted',
@@ -25,5 +25,7 @@ class DeleteRoleAction
                 'name' => $role->name,
             ]
         );
+
+        return $status;
     }
 }

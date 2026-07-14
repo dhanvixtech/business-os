@@ -1,0 +1,26 @@
+<?php
+
+namespace App\DTOs\{{ module }};
+
+use App\Http\Requests\{{ module }}\Store{{ module }}Request;
+
+readonly class Store{{ module }}DTO
+{
+    public function __construct(
+        // Add properties here
+    ) {}
+
+    public static function fromRequest(Store{{ module }}Request $request): self
+    {
+        return new self(
+            // Map validated data
+        );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            // Return mapped array
+        ];
+    }
+}

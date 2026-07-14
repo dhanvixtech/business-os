@@ -37,6 +37,7 @@ class UpdatePermissionRequest extends FormRequest
     public function toDto(): UpdatePermissionDTO
     {
         return UpdatePermissionDTO::fromArray(
+            (int) $this->route('id'),
             $this->validated()
         );
     }

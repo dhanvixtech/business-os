@@ -1,0 +1,87 @@
+<?php
+
+namespace App\Http\Controllers\Api\V1;
+
+use App\DTOs\{{ module }}\Store{{ module }}DTO;
+use App\DTOs\{{ module }}\Update{{ module }}DTO;
+use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\{{ module }}\List{{ module }}Request;
+use App\Http\Requests\{{ module }}\Store{{ module }}Request;
+use App\Http\Requests\{{ module }}\Update{{ module }}Request;
+use App\Http\Resources\{{ module }}Resource;
+use App\Services\{{ module }}Service;
+use Illuminate\Support\Facades\Gate;
+
+class {{ module }}Controller extends BaseController
+{
+    public function __construct(
+        private readonly {{ module }}Service $service
+    ) {}
+
+    public function index(List{{ module }}Request $request)
+    {
+        Gate::authorize('viewAny', {{ module }}::class);
+
+        $data = $this->service->index(
+            $request->toDto()
+        );
+
+        return $this->success(
+            data: {{ module }}Resource::collection($data)
+        );
+    }
+
+    public function store(Store{{ module }}Request $request)
+    {
+        Gate::authorize('create', {{ module }}::class);
+
+        $data = $this->service->store(
+            $request->toDto()
+        );
+
+        return $this->success(
+            data: new {{ module }}Resource($data),
+            message: '{{ module }} created successfully.'
+        );
+    }
+
+    public function show(int $id)
+    {
+        $data = $this->service->show($id);
+
+        Gate::authorize('view', $data);
+
+        return $this->success(
+            data: new {{ module }}Resource($data)
+        );
+    }
+
+    public function update(Update{{ module }}Request $request, int $id)
+    {
+        $model = $this->service->show($id);
+
+        Gate::authorize('update', $model);
+
+        $data = $this->service->update(
+                    $request->toDto($id)
+                );
+
+        return $this->success(
+            data: new {{ module }}Resource($data),
+            message: '{{ module }} updated successfully.'
+        );
+    }
+
+    public function destroy(int $id)
+    {
+        $model = $this->service->show($id);
+
+        Gate::authorize('delete', $model);
+
+        $this->service->delete($id);
+
+        return $this->success(
+            message: '{{ module }} deleted successfully.'
+        );
+    }
+}

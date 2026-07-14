@@ -2,17 +2,17 @@
 
 namespace App\Actions\Role;
 
-use App\Services\RoleService;
+use App\Repositories\Contracts\RoleRepositoryInterface;
 use Spatie\Permission\Models\Role;
 
 class ShowRoleAction
 {
     public function __construct(
-        private readonly RoleService $service,
+        private readonly RoleRepositoryInterface $repository,
     ) {}
 
     public function execute(int $id): Role
     {
-        return $this->service->show($id);
+        return $this->repository->findById($id);
     }
 }
